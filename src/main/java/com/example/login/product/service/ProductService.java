@@ -1,9 +1,6 @@
 package com.example.login.product.service;
 
-import com.example.login.member.model.MemberDto;
-import com.example.login.product.model.ProductDto;
-import com.example.login.orders.model.ProductOrdersDto;
-import com.example.login.orders.model.entity.Orders;
+import com.example.login.product.model.ProductReadRes;
 import com.example.login.product.model.entity.Product;
 import com.example.login.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +19,7 @@ public class ProductService {
     }
 
     // CREATE
-    public void create(ProductDto productDto) {
+    public void create(ProductReadRes productDto) {
 
         productRepository.save(Product.builder()
                 .name(productDto.getName())
@@ -30,10 +27,10 @@ public class ProductService {
                 .build());
     }
     // LIST
-    public List<ProductDto> list() {
+    public List<ProductReadRes> list() {
         List<Product> result = productRepository.findAll();
 
-        List<ProductDto> productDtos = new ArrayList<>();
+        List<ProductReadRes> productReadResDtos = new ArrayList<>();
         for(Product product : result) {
 //            List<ProductOrdersDto> productOrdersDtos = new ArrayList<>();
 //            List<Orders> ordersList = product.getOrderList();
@@ -51,20 +48,20 @@ public class ProductService {
 //                productOrdersDtos.add(productOrdersDto);
 //            }
 
-            ProductDto productDto = ProductDto.builder()
+            ProductReadRes productReadRes = ProductReadRes.builder()
                     .id(product.getId())
                     .name(product.getName())
                     .price(product.getPrice())
 //                    .productOrdersDtoList(productOrdersDtos)
                     .build();
 
-            productDtos.add(productDto);
+            productReadResDtos.add(productReadRes);
         }
-        return productDtos;
+        return productReadResDtos;
     }
 
     // READ
-    public ProductDto read(Integer id) {
+    public ProductReadRes read(Integer id) {
         Optional<Product> result = productRepository.findById(id);
 
         if(result.isPresent()) {
@@ -84,7 +81,7 @@ public class ProductService {
 //                );
 //            }
 
-            return  ProductDto.builder()
+            return  ProductReadRes.builder()
                     .id(product.getId())
                     .name(product.getName())
                     .price(product.getPrice())
@@ -152,7 +149,7 @@ public class ProductService {
 //    }
 
     // UPDATE
-    public void update(ProductDto productDto) {
+    public void update(ProductReadRes productDto) {
         productRepository.save(Product.builder()
                         .id(productDto.getId())
                         .name(productDto.getName())

@@ -1,6 +1,6 @@
 package com.example.login.orders.model;
 
-import com.example.login.product.model.ProductDto;
+import com.example.login.product.model.ProductReadRes;
 import lombok.*;
 
 @Getter
@@ -11,5 +11,5 @@ import lombok.*;
 public class MemberOrdersDto {
     private Integer id;
 
-    private ProductDto productDto;
+    private ProductReadRes productDto;
 }

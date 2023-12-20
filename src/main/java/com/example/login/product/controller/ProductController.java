@@ -1,7 +1,7 @@
 package com.example.login.product.controller;
 
 
-import com.example.login.product.model.ProductDto;
+import com.example.login.product.model.ProductReadRes;
 import com.example.login.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +19,8 @@ public class ProductController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    public ResponseEntity create(ProductDto productDto) {
-        productService.create(productDto);
+    public ResponseEntity create(ProductReadRes productReadRes) {
+        productService.create(productReadRes);
 
         return ResponseEntity.ok().body("상품 생성");
     }
@@ -38,8 +38,8 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/update")
-    public ResponseEntity update(ProductDto productDto) {
-        productService.update(productDto);
+    public ResponseEntity update(ProductReadRes productReadRes) {
+        productService.update(productReadRes);
 
         return ResponseEntity.ok().body("상품 수정");
     }

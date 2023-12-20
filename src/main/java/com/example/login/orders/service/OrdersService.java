@@ -1,8 +1,10 @@
 package com.example.login.orders.service;
 
 import com.example.login.member.model.MemberDto;
+import com.example.login.member.model.MemberLoginRes;
 import com.example.login.orders.model.OrdersDto;
-import com.example.login.product.model.ProductDto;
+import com.example.login.orders.model.PostOrderReq;
+import com.example.login.product.model.ProductReadRes;
 import com.example.login.member.model.entity.Member;
 import com.example.login.orders.model.entity.Orders;
 import com.example.login.product.model.entity.Product;
@@ -22,15 +24,21 @@ public class OrdersService {
     }
 
     // CREATE
-    public void create(Integer memberid, Integer productid, OrdersDto orderDto) {
+//    public void create(Integer memberid, Integer productid, OrdersDto orderDto) {
+//
+//        ordersRepository.save(Orders.builder()
+//                .member(Member.builder().id(memberid).build())
+//                .product(Product.builder().id(productid).build())
+//                .build());
+//    }
+
+    public void create(PostOrderReq postOrderReq) {
 
         ordersRepository.save(Orders.builder()
-                .member(Member.builder().id(memberid).build())
-                .product(Product.builder().id(productid).build())
+                .member(Member.builder().id(postOrderReq.getMemberId()).build())
+                .product(Product.builder().id(postOrderReq.getProductId()).build())
                 .build());
     }
-
-    // LIST
     public List<OrdersDto> list(){
         List<Orders> result = ordersRepository.findAll();
 
@@ -40,30 +48,26 @@ public class OrdersService {
             Member member = orders.getMember();
             Product product = orders.getProduct();
 
-            MemberDto memberDto = MemberDto.builder()
+            MemberLoginRes memberLoginRes = MemberLoginRes.builder()
                     .id(member.getId())
                     .email(member.getEmail())
-                    .password(member.getPassword())
                     .build();
 
-            ProductDto productDto = ProductDto.builder()
+            ProductReadRes productReadRes = ProductReadRes.builder()
                     .id(product.getId())
                     .name(product.getName())
                     .price(product.getPrice())
                     .build();
-
             OrdersDto ordersDto = OrdersDto.builder()
                     .id(orders.getId())
-                    .memberDto(memberDto)
-                    .productDto(productDto)
+                    .memberLoginRes(memberLoginRes)
+                    .productReadRes(productReadRes)
                     .build();
 
             ordersDtos.add(ordersDto);
         }
         return ordersDtos;
     }
-
-    // READ
     public OrdersDto read(Integer idx) {
         Optional<Orders> result = ordersRepository.findById(idx);
         if(result.isPresent()) {
@@ -71,22 +75,77 @@ public class OrdersService {
 
             return OrdersDto.builder()
                     .id(orders.getId())
-                    .memberDto(MemberDto.builder()
+                    .memberLoginRes(MemberLoginRes.builder()
                             .id(orders.getMember().getId())
                             .email(orders.getMember().getEmail())
-                            .password(orders.getMember().getPassword())
                             .build())
-                    .productDto(ProductDto.builder()
+                    .productReadRes(ProductReadRes.builder()
                             .id(orders.getProduct().getId())
                             .name(orders.getProduct().getName())
                             .price(orders.getProduct().getPrice())
                             .build())
-
                     .build();
         } else {
             return null;
         }
     }
+    // LIST
+//    public List<OrdersDto> list(){
+//        List<Orders> result = ordersRepository.findAll();
+//
+//        List<OrdersDto> ordersDtos = new ArrayList<>();
+//
+//        for(Orders orders : result) {
+//            Member member = orders.getMember();
+//            Product product = orders.getProduct();
+//
+//            MemberDto memberDto = MemberDto.builder()
+//                    .id(member.getId())
+//                    .email(member.getEmail())
+//                    .password(member.getPassword())
+//                    .build();
+//
+//            ProductReadRes productDto = ProductReadRes.builder()
+//                    .id(product.getId())
+//                    .name(product.getName())
+//                    .price(product.getPrice())
+//                    .build();
+//
+//            OrdersDto ordersDto = OrdersDto.builder()
+//                    .id(orders.getId())
+//                    .memberDto(memberDto)
+//                    .productDto(productDto)
+//                    .build();
+//
+//            ordersDtos.add(ordersDto);
+//        }
+//        return ordersDtos;
+//    }
+
+    // READ
+//    public OrdersDto read(Integer idx) {
+//        Optional<Orders> result = ordersRepository.findById(idx);
+//        if(result.isPresent()) {
+//            Orders orders = result.get();
+//
+//            return OrdersDto.builder()
+//                    .id(orders.getId())
+//                    .memberDto(MemberDto.builder()
+//                            .id(orders.getMember().getId())
+//                            .email(orders.getMember().getEmail())
+//                            .password(orders.getMember().getPassword())
+//                            .build())
+//                    .productDto(ProductReadRes.builder()
+//                            .id(orders.getProduct().getId())
+//                            .name(orders.getProduct().getName())
+//                            .price(orders.getProduct().getPrice())
+//                            .build())
+//
+//                    .build();
+//        } else {
+//            return null;
+//        }
+//    }
 
 
 

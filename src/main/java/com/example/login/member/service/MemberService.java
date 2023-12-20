@@ -4,7 +4,7 @@ import com.example.login.member.model.MemberDto;
 import com.example.login.member.model.MemberLoginReq;
 import com.example.login.member.model.MemberLoginRes;
 import com.example.login.orders.model.MemberOrdersDto;
-import com.example.login.product.model.ProductDto;
+import com.example.login.product.model.ProductReadRes;
 import com.example.login.member.model.entity.Member;
 import com.example.login.orders.model.entity.Orders;
 import com.example.login.member.repository.MemberRepository;
@@ -43,7 +43,7 @@ public class MemberService {
             for(Orders orders : ordersList) {
                 MemberOrdersDto memberordersDto = MemberOrdersDto.builder()
                         .id(orders.getId())
-                        .productDto(ProductDto.builder()
+                        .productDto(ProductReadRes.builder()
                                 .id(orders.getProduct().getId())
                                 .name(orders.getProduct().getName())
                                 .price(orders.getProduct().getPrice())
@@ -67,9 +67,8 @@ public class MemberService {
 
     public MemberLoginRes login(MemberLoginReq memberLoginReq) {
         Optional<Member> emailResult = memberRepository.findByEmail(memberLoginReq.getEmail());
-        Optional<Member> pwResult = memberRepository.findByPassword(memberLoginReq.getPassword());
 
-        if(emailResult.isPresent() && pwResult.isPresent()) {
+        if(emailResult.isPresent() && memberLoginReq.getPassword().equals(emailResult.get().getPassword())) {
             Member member = emailResult.get();
             return MemberLoginRes.builder()
                     .id(member.getId())

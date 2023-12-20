@@ -19,10 +19,12 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Member_id")
     private Member member;
 
+    //@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Product_id")
     private Product product;

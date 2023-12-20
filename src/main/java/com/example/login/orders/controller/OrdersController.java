@@ -1,14 +1,16 @@
 package com.example.login.orders.controller;
 
 import com.example.login.orders.model.OrdersDto;
+import com.example.login.orders.model.PostOrderReq;
 import com.example.login.orders.service.OrdersService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrdersController {
 
     private final OrdersService ordersService;
@@ -18,12 +20,20 @@ public class OrdersController {
     }
 
 
+//    // CREATE
+//    @RequestMapping(method = RequestMethod.POST, value = "/create")
+//    public ResponseEntity create(Integer memberid, Integer productid, OrdersDto ordersDto) {
+//        ordersService.create(memberid, productid, ordersDto);
+//
+//        return ResponseEntity.ok().body("주문 작성 성공");
+//    }
+
     // CREATE
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    public ResponseEntity create(Integer memberid, Integer productid, OrdersDto ordersDto) {
-        ordersService.create(memberid, productid, ordersDto);
+    public ResponseEntity create(@RequestBody PostOrderReq postOrderReq) {
+        ordersService.create(postOrderReq);
 
-        return ResponseEntity.ok().body("주문 작성 성공");
+        return ResponseEntity.ok().body("ok");
     }
 
     // LIST 조회

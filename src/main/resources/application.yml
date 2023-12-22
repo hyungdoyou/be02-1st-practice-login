@@ -12,3 +12,12 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+jwt:
+  secret-key: abcdefghijklmnopqrstuvwxyz0123456789
+  token:
+    expired-time-ms: 30000

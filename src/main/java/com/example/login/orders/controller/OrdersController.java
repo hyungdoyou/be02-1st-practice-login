@@ -1,9 +1,15 @@
 package com.example.login.orders.controller;
 
+import com.example.login.member.model.entity.Member;
 import com.example.login.orders.model.OrdersDto;
 import com.example.login.orders.model.PostOrderReq;
 import com.example.login.orders.service.OrdersService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,18 +26,12 @@ public class OrdersController {
     }
 
 
-//    // CREATE
-//    @RequestMapping(method = RequestMethod.POST, value = "/create")
-//    public ResponseEntity create(Integer memberid, Integer productid, OrdersDto ordersDto) {
-//        ordersService.create(memberid, productid, ordersDto);
-//
-//        return ResponseEntity.ok().body("주문 작성 성공");
-//    }
-
     // CREATE
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     public ResponseEntity create(@RequestBody PostOrderReq postOrderReq) {
-        ordersService.create(postOrderReq);
+
+        Member member = ((Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        ordersService.create(member.getId(), postOrderReq);
 
         return ResponseEntity.ok().body("ok");
     }
@@ -56,11 +56,12 @@ public class OrdersController {
         return ResponseEntity.ok().body("주문 수정 성공");
     }
 
-
     // DELETE
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete")
     public ResponseEntity delete(Integer id) {
         ordersService.delete(id);
         return ResponseEntity.ok().body("주문 삭제 성공");
     }
+
+
 }

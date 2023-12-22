@@ -1,5 +1,6 @@
 package com.example.login.member.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MemberLoginReq {
-    private String email;
+    @JsonProperty("email")
+    private String username;
     private String password;
+
+    private String token;
+    private String key;
 }

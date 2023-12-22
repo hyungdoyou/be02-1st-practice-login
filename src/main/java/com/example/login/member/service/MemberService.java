@@ -1,10 +1,8 @@
 package com.example.login.member.service;
 
 import com.example.login.member.config.utils.JwtUtils;
-import com.example.login.member.model.MemberDto;
 import com.example.login.member.model.MemberLoginReq;
 import com.example.login.member.model.MemberLoginRes;
-import com.example.login.orders.model.MemberOrdersDto;
 import com.example.login.product.model.ProductReadRes;
 import com.example.login.member.model.entity.Member;
 import com.example.login.orders.model.entity.Orders;
@@ -27,8 +25,7 @@ import java.util.Optional;
 
 @Service
 public class MemberService implements UserDetailsService {
-    @Value("${jwt.secret-key}")
-    private String secretKey;
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -47,9 +44,6 @@ public class MemberService implements UserDetailsService {
                 .build());
     }
 
-    public Boolean login(MemberLoginReq memberLoginReq) {
-        return JwtUtils.validate(memberLoginReq.getUsername(), memberLoginReq.getToken(), secretKey);
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

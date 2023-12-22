@@ -1,6 +1,5 @@
 package com.example.login.orders.service;
 
-import com.example.login.member.model.MemberDto;
 import com.example.login.member.model.MemberLoginRes;
 import com.example.login.orders.model.OrdersDto;
 import com.example.login.orders.model.PostOrderReq;

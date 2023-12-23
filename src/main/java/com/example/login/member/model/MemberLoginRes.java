@@ -13,38 +13,12 @@ import java.util.Collections;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberLoginRes implements UserDetails {
+public class MemberLoginRes {
     private Integer id;
 
     @JsonProperty("email")
     private String username;
 
     private String password;
-    private String authority;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton((GrantedAuthority) () -> authority);
-    }
-
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

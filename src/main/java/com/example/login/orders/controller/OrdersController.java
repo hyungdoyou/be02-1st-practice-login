@@ -36,6 +36,7 @@ public class OrdersController {
         return ResponseEntity.ok().body("ok");
     }
 
+
     // LIST 조회
     @RequestMapping(method = RequestMethod.GET, value = "/list")
     public ResponseEntity list() {

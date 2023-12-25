@@ -14,7 +14,8 @@ public class JwtUtils {
     public static String generateAccessToken(String username, String key, int expiredTimeMs) {
 
         Claims claims = Jwts.claims();
-        claims.put("username", username);
+        claims.put("email", username);
+        claims.put("roles", "ROLE_USER");
 
         byte[] secretBytes = key.getBytes();
 
@@ -29,7 +30,7 @@ public class JwtUtils {
     }
 
     // 토큰 검증
-    public static Boolean validate(String username, String token, String key) {
+    public static Boolean validate(String token, String username, String key) {
 
         String usernameByToken = getUsername(token, key);
 
@@ -46,7 +47,7 @@ public class JwtUtils {
 
     // 사용자 이름 가져오는 메서드
     public static String getUsername(String token, String key) {
-        return extractAllClaims(token, key).get("username", String.class);
+        return extractAllClaims(token, key).get("email", String.class);
     }
 
     // 토근에서 정보를 가져오는 코드가 계속 중복되어 사용되기 때문에 별도의 메서드로 만들어서 사용하기 위한 것

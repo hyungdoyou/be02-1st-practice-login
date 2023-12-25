@@ -24,7 +24,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MemberService implements UserDetailsService {
+public class MemberService  {
+//public class MemberService implements UserDetailsService {
+
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+
+    @Value("${jwt.token.expired-time-ms}")
+    private Integer expiredTimeMs;
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -44,14 +51,27 @@ public class MemberService implements UserDetailsService {
                 .build());
     }
 
+    public String login(MemberLoginReq memberLoginReq) {
+        Optional<Member> result = memberRepository.findByUsername(memberLoginReq.getUsername());
+        Member member = result.get();
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> result = memberRepository.findByUsername(username);
-        Member member = null;
-        if(result.isPresent()) {
-            member = result.get();
+        if(result.isPresent() && passwordEncoder.matches(memberLoginReq.getPassword(), member.getPassword())) {
+            memberLoginReq.setToken(JwtUtils.generateAccessToken(member.getUsername(), secretKey, expiredTimeMs));
+//            return JwtUtils.generateAccessToken(member.getUsername(), secretKey, expiredTimeMs);
+            return memberLoginReq.getToken();
+        } else {
+            return null;
         }
-        return member;
     }
+
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Optional<Member> result = memberRepository.findByUsername(username);
+//        Member member = null;
+//        if(result.isPresent()) {
+//            member = result.get();
+//        }
+//        return member;
+//    }
 }

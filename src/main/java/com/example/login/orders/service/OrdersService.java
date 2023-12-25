@@ -33,6 +33,7 @@ public class OrdersService {
                 .product(Product.builder().id(postOrderReq.getProductId()).build())
                 .build());
     }
+
     public List<OrdersDto> list(){
         Member member = ((Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Integer nowUser = member.getId();

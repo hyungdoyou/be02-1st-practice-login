@@ -35,17 +35,22 @@ public class MemberController {
         return ResponseEntity.ok().body("ok");
     }
 
-
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public ResponseEntity login(@RequestBody MemberLoginReq memberLoginReq){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(memberLoginReq.getUsername(), memberLoginReq.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        Member member = ((Member)authentication.getPrincipal());
-        return ResponseEntity.ok().body(MemberLoginRes.builder()
-                    .id(member.getId())
-                    .username(member.getUsername())
-            .build());
+    public ResponseEntity login(@RequestBody MemberLoginReq memberLoginReq) {
+        return ResponseEntity.ok().body(memberService.login(memberLoginReq));
     }
+
+
+//    @RequestMapping(method = RequestMethod.POST, value = "/login")
+//    public ResponseEntity login(@RequestBody MemberLoginReq memberLoginReq){
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(memberLoginReq.getUsername(), memberLoginReq.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        Member member = ((Member)authentication.getPrincipal());
+//        return ResponseEntity.ok().body(MemberLoginRes.builder()
+//                    .id(member.getId())
+//                    .username(member.getUsername())
+//            .build());
+//    }
 
 }

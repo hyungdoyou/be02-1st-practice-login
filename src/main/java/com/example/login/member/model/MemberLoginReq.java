@@ -14,5 +14,4 @@ public class MemberLoginReq {
     private String password;
 
     private String token;
-    private String key;
 }

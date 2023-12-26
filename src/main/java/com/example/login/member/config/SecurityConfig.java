@@ -36,7 +36,7 @@ public class SecurityConfig {
 
             http.csrf().disable()
                     .authorizeHttpRequests()
-                        .antMatchers("/member/login", "/member/signup", "/product/list", "/product/read", "/product/create").permitAll()
+                        .antMatchers("/member/*","/member/login", "/member/signup", "/product/list", "/product/read", "/product/create").permitAll()
                         .antMatchers("/order/create", "/order/list").hasAuthority("ROLE_USER")
                         .anyRequest().authenticated()
                     .and()

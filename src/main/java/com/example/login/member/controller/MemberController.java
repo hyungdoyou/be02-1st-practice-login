@@ -4,6 +4,7 @@ import com.example.login.member.config.utils.JwtUtils;
 import com.example.login.member.model.MemberLoginReq;
 import com.example.login.member.model.MemberLoginRes;
 import com.example.login.member.model.entity.Member;
+import com.example.login.member.service.KakaoService;
 import com.example.login.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final KakaoService kakaoService;
     private final AuthenticationManager authenticationManager;
 
-    public MemberController(MemberService memberService, AuthenticationManager authenticationManager) {
+    public MemberController(MemberService memberService, KakaoService kakaoService, AuthenticationManager authenticationManager) {
         this.memberService = memberService;
+        this.kakaoService = kakaoService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -38,6 +41,14 @@ public class MemberController {
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public ResponseEntity login(@RequestBody MemberLoginReq memberLoginReq) {
         return ResponseEntity.ok().body(memberService.login(memberLoginReq));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/kakao")
+    public ResponseEntity kakaoLogin(String code) {
+        String accessToken = kakaoService.getKakaoToken(code);
+        String userName = kakaoService.getUserInfo(accessToken);
+
+        return ResponseEntity.ok().body(memberService.kakaoLogin(userName));
     }
 
 

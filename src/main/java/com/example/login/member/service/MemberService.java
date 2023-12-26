@@ -64,6 +64,24 @@ public class MemberService  {
         }
     }
 
+    public void kakaoSignup(String userName) {
+            memberRepository.save(Member.builder()
+                    .username(userName)
+                    .password(passwordEncoder.encode("kakao"))
+                    .authority("ROLE_USER")
+                    .build());
+    }
+
+    public String kakaoLogin(String userName) {
+        Optional<Member> result = memberRepository.findByUsername(userName);
+
+        if(result.isEmpty()) {
+            kakaoSignup(userName);
+            return JwtUtils.generateAccessToken(userName, secretKey, expiredTimeMs);
+        } else {
+            return JwtUtils.generateAccessToken(userName, secretKey, expiredTimeMs);
+        }
+    }
 
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

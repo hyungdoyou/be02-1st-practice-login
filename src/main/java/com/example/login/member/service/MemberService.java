@@ -28,7 +28,7 @@ public class MemberService  {
 //public class MemberService implements UserDetailsService {
 
     @Value("${jwt.secret-key}")
-    private String secretKey;
+    private String secretKey;dd
 
     @Value("${jwt.token.expired-time-ms}")
     private Integer expiredTimeMs;

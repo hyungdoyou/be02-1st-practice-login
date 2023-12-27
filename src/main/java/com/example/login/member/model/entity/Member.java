@@ -24,6 +24,7 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    // test code
 //    private String email;
     @JsonProperty("email")
     @Column(name = "email")
